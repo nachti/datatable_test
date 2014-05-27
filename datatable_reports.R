@@ -51,6 +51,8 @@ key(dtp) # ok
 ###############################################
 
 ###############################################
+##### Reported 20140509
+##### http://stackoverflow.com/questions/23563510/deparsesubstitute-within-function-using-data-table-as-argument
 e <- data.frame(x = 1:10)
 ### something strange is happening
 foo <- function(u) {
@@ -68,9 +70,6 @@ foo1 <- function(u) {
   u
 }
 foo1(e)
-
-##### Reported 20140509
-##### http://stackoverflow.com/questions/23563510/deparsesubstitute-within-function-using-data-table-as-argument
 ###############################################
 
 ###############################################
@@ -86,6 +85,10 @@ str(dt)
 
 #####
 ### more sophisticated example
+
+##### Reported 20140522
+##### http://stackoverflow.com/questions/23805911/binary-search-doesnt-work-in-v-1-9-3-using-numeric-key-derived-from-factor
+
 set.seed(1)
 dt <- data.table(x = rnorm(10))
 dt[, y := cut(x, breaks = c(-Inf, 0, Inf), labels = 1:2)]
@@ -103,6 +106,8 @@ dt[J(1)] # doesn't work
 dt[y == 1, ] # works fine
 str(dt)
 
-##### Reported 20140522
-##### http://stackoverflow.com/questions/23805911/binary-search-doesnt-work-in-v-1-9-3-using-numeric-key-derived-from-factor
+setkey(dt, z)
+dt
+dt[J(1)] # doesn't work
+
 ###############################################
