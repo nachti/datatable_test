@@ -1,0 +1,3811 @@
+Loading required package: data.table
+R version 3.1.0 (2014-04-10)
+Platform: powerpc64-unknown-linux-gnu (64-bit)
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  base     
+
+other attached packages:
+[1] data.table_1.9.3
+
+loaded via a namespace (and not attached):
+[1] methods_3.1.0 plyr_1.8.1    Rcpp_0.11.1   reshape2_1.4  stringr_0.6.2
+Running /home/gerhard/lib/R/Work/data.table/tests/tests.Rraw 
+Loading required package: reshape2
+Loading required package: reshape
+
+Attaching package: ‘reshape’
+
+The following objects are masked from ‘package:reshape2’:
+
+    colsplit, melt, recast
+
+Loading required package: plyr
+
+Attaching package: ‘plyr’
+
+The following objects are masked from ‘package:reshape’:
+
+    rename, round_any
+
+Loading required package: ggplot2
+Loading required package: methods
+Loading required package: hexbin
+Loading required package: grid
+Loading required package: lattice
+Loading required package: nlme
+Loading required package: xts
+Loading required package: zoo
+
+Attaching package: ‘zoo’
+
+The following objects are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric
+
+
+Attaching package: ‘xts’
+
+The following object is masked from ‘package:data.table’:
+
+    last
+
+Loading required package: bit64
+Loading required package: bit
+Attaching package bit
+package:bit (c) 2008-2012 Jens Oehlschlaegel (GPL-2)
+creators: bit bitwhich
+coercion: as.logical as.integer as.bit as.bitwhich which
+operator: ! & | xor != ==
+querying: print length any all min max range sum summary
+bit access: length<- [ [<- [[ [[<-
+for more help type ?bit
+
+Attaching package: ‘bit’
+
+The following object is masked from ‘package:data.table’:
+
+    setattr
+
+The following object is masked from ‘package:base’:
+
+    xor
+
+Loading package bit64 0.9-2
+package:bit64 (c) 2011-2012 Jens Oehlschlaegel (GPL-2 with commercial restrictions)
+creators: integer64 seq :
+coercion: as.integer64 as.vector as.logical as.integer as.double as.character as.bin
+logical operator: ! & | xor != == < <= >= >
+arithmetic operator: + - * / %/% %% ^
+math: sign abs sqrt log log2 log10
+math: floor ceiling trunc round
+querying: is.integer64 is.vector [is.atomic} [length] is.na format print
+aggregation: any all min max range sum prod
+cumulation: diff cummin cummax cumsum cumprod
+access: length<- [ [<- [[ [[<-
+combine: c rep cbind rbind as.data.frame
+for more help type ?bit64
+Loading required package: gdata
+gdata: read.xls support for 'XLS' (Excel 97-2004) files ENABLED.
+
+gdata: read.xls support for 'XLSX' (Excel 2007+) files ENABLED.
+
+Attaching package: ‘gdata’
+
+The following object is masked from ‘package:stats’:
+
+    nobs
+
+The following object is masked from ‘package:utils’:
+
+    object.size
+
+Test 24 ran without errors but failed check that x equals y:
+> x = TESTDT[SJ(c(1, NA, 4, NA, NA, 4, 4), c(5, 5, 6, 6, 7, 9, 10)),      v, mult = "all", roll = TRUE, nomatch = 0] 
+[1] 3 4 5 6 6 1
+> y = INT(1, 3:4, 5:6, 6) 
+[1] 1 3 4 5 6 6
+Test 191 ran without errors but failed check that x equals y:
+> x = TESTDT[SJ(c(1, NA, 4, NA, NA, 4, 4), c(5, 5, 6, 6, 7, 9, 10)),      v, mult = "all", roll = TRUE, nomatch = NA, allow.cartesian = TRUE] 
+First 6 of 9 :[1] NA NA NA  3  4  5
+> y = INT(NA, NA, NA, 1, 3:4, 5:6, 6) 
+First 6 of 9 :[1] NA NA NA  1  3  4
+Don't know how to automatically pick scale for object of type ITime. Defaulting to continuous
+Don't know how to automatically pick scale for object of type ITime. Defaulting to continuous
+Test 272 ran without errors but failed check that x equals y:
+> x = DT[, sum(z), by = key(DT)]$V1 
+[1] 2 1 3
+> y = c(1L, 3L, 2L) 
+[1] 1 3 2
+Test 599 ran without errors but failed check that x equals y:
+> x = DT[c(8, 9, 4, 11, 2, 10, 7, 1, 3, 5, 6)] 
+      V1  V2  [Key= Types=num,num]
+ 1:   NA  NA                      
+ 2:   NA 1.1                      
+---                               
+10: 2.22 2.3                      
+11: 2.22 2.4                      
+> y = setkey(setkey(DT), NULL) 
+      V1  V2  [Key= Types=num,num]
+ 1:   NA  NA                      
+ 2:   NA 1.1                      
+---                               
+10: 2.22 2.3                      
+11: 2.22 2.4                      
+Test 632 ran without errors but failed check that x equals y:
+> x = merge(DT1, DT2, all = TRUE) 
+    a total.x total.y  [Key=a Types=num,num,num]
+ 1: 2      NA       5                           
+ 2: 3       1       1                           
+---                                             
+ 4: 5       1       2                           
+ 5: 1       2      NA                           
+> y = data.table(a = c(1, 2, 3, 4, 5), total.x = c(2, NA, 1, 3, 1),      total.y = c(NA, 5, 1, NA, 2), key = "a") 
+    a total.x total.y  [Key=a Types=num,num,num]
+ 1: 1       2      NA                           
+ 2: 2      NA       5                           
+---                                             
+ 4: 4       3      NA                           
+ 5: 5       1       2                           
+Test 632.1 ran without errors but failed check that x equals y:
+> x = merge(DT1, DT2, all = TRUE) 
+    a total.x total.y  [Key=a Types=num,num,num]
+ 1: 2      NA       5                           
+ 2: 3       1       1                           
+---                                             
+ 4: 5       1       2                           
+ 5: 1       2      NA                           
+> y = setkey(adt(merge(adf(DT1), adf(DT2), by = "a", all = TRUE)),      a) 
+    a total.x total.y  [Key=a Types=num,num,num]
+ 1: 1       2      NA                           
+ 2: 2      NA       5                           
+---                                             
+ 4: 4       3      NA                           
+ 5: 5       1       2                           
+Test 1018 didn't produce correct warning :
+> fread("1.46761e-313\n") 
+Expected warning: 'strtod() returned ERANGE'
+Observed: no error or warning
+Test 1104.2 ran without errors but failed check that x equals y:
+> x = as.data.frame(dcast.data.table(x, a ~ b, value.var = "b")) 
+  a 0.747815270209685 0.363015734823421 0.807170010404661 0.568322559352964
+1 1                NA         0.3630157                NA                NA
+2 2                NA                NA           0.80717                NA
+3 3                NA                NA                NA                NA
+4 4         0.7478153                NA                NA                NA
+5 5                NA                NA                NA         0.5683226
+  0.882325432961807
+1                NA
+2                NA
+3         0.8823254
+4                NA
+5                NA
+> y = dcast(x, a ~ b, value.var = "b") 
+  a 0.363015734823421 0.568322559352964 0.747815270209685 0.807170010404661
+1 1         0.3630157                NA                NA                NA
+2 2                NA                NA                NA           0.80717
+3 3                NA                NA                NA                NA
+4 4                NA                NA         0.7478153                NA
+5 5                NA         0.5683226                NA                NA
+  0.882325432961807
+1                NA
+2                NA
+3         0.8823254
+4                NA
+5                NA
+Test 1147.2 ran without errors but failed check that x equals y:
+> x = ordernumtol(x) 
+First 6 of 1000000 :[1]   1826 451746  14295 561589 648188 688733
+> y = dradixorder(x) 
+First 6 of 1000000 :[1] 235106 734005 434418 275307 952640 918271
+Test 1154.1 ran without errors but failed check that x equals y:
+> x = DT[J(NaN)] 
+     x  y  z  [Key=x Types=num,int,cha]
+1: NaN NA NA                           
+> y = DT[is.nan(x)] 
+      x y z  [Key=x Types=num,int,cha]
+ 1: NaN 1 e                           
+ 2: NaN 5 f                           
+---                                   
+ 5: NaN 7 a                           
+ 6: NaN 6 b                           
+Test 1155.1 ran without errors but failed check that x equals y:
+> x = merge(dt1, dt2, by = c("y")) 
+    y      x            z  [Key=y Types=num,cha,cha]
+1: NA  green missing data                           
+2:  2 orange            b                           
+> y = data.table(y = dt1$y, x = dt1$x, z = dt2$z[1:3], key = "y") 
+    y      x            z  [Key=y Types=num,cha,cha]
+1: NA  green missing data                           
+2:  2 orange            b                           
+3:  1    red            c                           
+Test 1155.2 ran without errors but failed check that x equals y:
+> x = dt2[dt1] 
+    y            z      x  [Key=y Types=num,cha,cha]
+1: NA missing data  green                           
+2:  2            b orange                           
+3:  1           NA    red                           
+> y = data.table(y = dt1$y, z = dt2$z[1:3], x = dt1$x, key = "y") 
+    y            z      x  [Key=y Types=num,cha,cha]
+1: NA missing data  green                           
+2:  2            b orange                           
+3:  1            c    red                           
+Test 1155.3 ran without errors but failed check that x equals y:
+> x = dt1[dt2, nomatch = 0L] 
+        x  y            z  [Key=y Types=cha,num,cha]
+1:  green NA missing data                           
+2: orange  2            b                           
+> y = data.table(x = dt1$x, y = dt1$y, z = dt2$z[1:3], key = "y") 
+        x  y            z  [Key=y Types=cha,num,cha]
+1:  green NA missing data                           
+2: orange  2            b                           
+3:    red  1            c                           
+Test 1162.4 ran without errors but failed check that x equals y:
+> x = is.sorted(DT[[2L]]) 
+[1] FALSE
+> y = TRUE 
+[1] TRUE
+Test 1162.9 ran without errors but failed check that x equals y:
+> x = length(forderv(DT, by = 2:3)) 
+[1] 200
+> y = 0 
+[1] 0
+Test 1207.1 ran without errors but failed check that x equals y:
+> x = DT[.(c(NA_real_, Inf)), B] 
+[1]  8 12 NA
+> y = INT(8, 12, 4) 
+[1]  8 12  4
+Test 1208.1 ran without errors but failed check that x equals y:
+> x = DT[.(c(Inf, NA_real_)), B] 
+[1] NA  8 12
+> y = INT(4, 8, 12) 
+[1]  4  8 12
+Test 1211.1 ran without errors but failed check that x equals y:
+> x = DT[, sum(B), by = A]$V1 
+First 6 of 10 :[1] 20 17  1  2  5  4
+> y = INT(20, 17, 3, 6, 1, 2, 11, 5, 9, 4) 
+First 6 of 10 :[1] 20 17  3  6  1  2
+Test 1212.1 ran without errors but failed check that x equals y:
+> x = DT[, sum(B), by = list(g = abs(trunc(A)))] 
+      g V1  [Key= Types=num,int]
+ 1:  NA 20                      
+ 2: NaN 17                      
+---                             
+ 5:   3 14                      
+ 6: Inf  7                      
+> y = data.table(g = c(NA, NaN, Inf, 1, 2, 3), V1 = INT(20, 17, 7,      7, 13, 14)) 
+      g V1  [Key= Types=num,int]
+ 1:  NA 20                      
+ 2: NaN 17                      
+---                             
+ 5:   2 13                      
+ 6:   3 14                      
+Test 1207.2 ran without errors but failed check that x equals y:
+> x = DT[.(c(NA_real_, Inf)), B] 
+[1]  8 12 NA
+> y = INT(8, 12, 4) 
+[1]  8 12  4
+Test 1208.2 ran without errors but failed check that x equals y:
+> x = DT[.(c(Inf, NA_real_)), B] 
+[1] NA  8 12
+> y = INT(4, 8, 12) 
+[1]  4  8 12
+Test 1211.2 ran without errors but failed check that x equals y:
+> x = DT[, sum(B), by = A]$V1 
+First 6 of 10 :[1] 20 17  1  2  5  4
+> y = INT(20, 17, 3, 6, 1, 2, 11, 5, 9, 4) 
+First 6 of 10 :[1] 20 17  3  6  1  2
+Test 1212.2 ran without errors but failed check that x equals y:
+> x = DT[, sum(B), by = list(g = abs(trunc(A)))] 
+      g V1  [Key= Types=num,int]
+ 1:  NA 20                      
+ 2: NaN 17                      
+---                             
+ 5:   3 14                      
+ 6: Inf  7                      
+> y = data.table(g = c(NA, NaN, Inf, 1, 2, 3), V1 = INT(20, 17, 7,      7, 13, 14)) 
+      g V1  [Key= Types=num,int]
+ 1:  NA 20                      
+ 2: NaN 17                      
+---                             
+ 5:   2 13                      
+ 6:   3 14                      
+Test 1223.001 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.002 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.003 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 541 831 324 441
+Test 1223.004 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 127 185  74 178 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 459 476 602 102 232
+Test 1223.013 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.014 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.015 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.016 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.017 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.018 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.019 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.02 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.021 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.022 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.023 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.024 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.025 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.026 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.027 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.028 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.029 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.03 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.031 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.032 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.033 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.034 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.035 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.036 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 518 963
+Test 1223.037 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 238 796 172 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 265 831  65 441 638
+Test 1223.038 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 172 796 238 443
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 831 265 541 529 801
+Test 1223.039 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 127 185 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 459 602 476  32 338 963
+Test 1223.04 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 185 127  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 476 602 459 232 102
+Test 1223.041 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 238 796 172 603
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 265 831  65 324 441
+Test 1223.042 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 796 238 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 831 265 541 529 638
+Test 1223.043 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 127 185  74 178 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 602 459 476  32 338 232
+Test 1223.044 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 185 127  98 689 178  74
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 476 459 602 511 518
+Test 1223.045 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 796 172 238 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 541 831 265 441 529
+Test 1223.046 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 238 172 796 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 265 831 541  65 638 324
+Test 1223.047 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 185  98 127 178 689  74
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 338 511
+Test 1223.048 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127  98 185  74 689 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 459 602 476 232 102
+Test 1223.073 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.074 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.075 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.076 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.077 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.078 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.079 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.08 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.081 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.082 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.083 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.084 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.085 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.086 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.087 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.088 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.089 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.09 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.091 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.092 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.093 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.094 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.095 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.096 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.097 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.098 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.099 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.1 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.101 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.102 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.103 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.104 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.105 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.106 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.107 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.108 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.109 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.11 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.111 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.112 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.113 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.114 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.115 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.116 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.117 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.118 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.119 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.12 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.121 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.122 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.123 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.124 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.125 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.126 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.127 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.128 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.129 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.13 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.131 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.132 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.133 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.134 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.135 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.136 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.137 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.138 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.139 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.14 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.141 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.142 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.143 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.144 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.145 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.146 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.147 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.148 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.149 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.15 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.151 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.152 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.153 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.154 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 603
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.155 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.156 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.157 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.158 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.159 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 963 518
+Test 1223.16 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 518 963
+Test 1223.161 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 603
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.162 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.163 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.164 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.165 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.166 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.167 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 963 518
+Test 1223.168 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 518 963
+Test 1223.169 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 603
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.17 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.171 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.172 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.173 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.174 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.175 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 963 518
+Test 1223.176 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 518 963
+Test 1223.177 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 238 796 172 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 265 831  65 441 638
+Test 1223.178 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 238 796 172 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 265 831  65 441 638
+Test 1223.179 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 172 796 238 443
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 831 265 541 529 801
+Test 1223.18 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 172 796 238 443
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 831 265 541 529 801
+Test 1223.181 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 127 185 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 459 602 476  32 338 963
+Test 1223.182 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 127 185 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 459 602 476  32 338 963
+Test 1223.183 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 185 127  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 476 602 459 232 102
+Test 1223.184 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 185 127  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 476 602 459 232 102
+Test 1223.185 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 238 796 172 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 265 831  65 441 638
+Test 1223.186 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 238 796 172 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 265 831  65 441 638
+Test 1223.187 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 172 796 238 443
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 831 265 541 529 801
+Test 1223.188 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 172 796 238 443
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 831 265 541 529 801
+Test 1223.189 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 127 185 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 459 602 476  32 338 963
+Test 1223.19 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 127 185 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 459 602 476  32 338 963
+Test 1223.191 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 185 127  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 476 602 459 232 102
+Test 1223.192 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 185 127  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 476 602 459 232 102
+Test 1223.193 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 238 796 172 603
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 265 831  65 441 801
+Test 1223.194 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 238 796 172 603
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 265 831  65 324 801
+Test 1223.195 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 796 238 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 831 265 541 529 638
+Test 1223.196 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 796 238 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 831 265 541 529 638
+Test 1223.197 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 127 185  74 178 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 602 459 476  32 338 232
+Test 1223.198 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 127 185  74 178 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 602 459 476  32 338 232
+Test 1223.199 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 185 127  98 689 178  74
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 476 459 602 511 518
+Test 1223.2 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 185 127  98 689 178  74
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 476 459 602 518 511
+Test 1223.233 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.234 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.235 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.236 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.237 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.238 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.239 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.24 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.241 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.242 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.243 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.244 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.245 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.246 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.247 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.248 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.249 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.25 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.251 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.252 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.253 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.254 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.255 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.256 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.257 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.258 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.259 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.26 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.261 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.262 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.263 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.264 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.265 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.266 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.267 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.268 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.269 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.27 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.271 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.272 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.273 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.274 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.275 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.276 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.277 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.278 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.279 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.28 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.281 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.282 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.283 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.284 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.285 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.286 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.287 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.288 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.289 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.29 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.291 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.292 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.293 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.294 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.295 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.296 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.297 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.298 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.299 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.3 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.301 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.302 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.303 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.304 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.305 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.306 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.307 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.308 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.309 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.31 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.311 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.312 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.313 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.314 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.315 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.316 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.317 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.318 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.319 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.32 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.321 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.322 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.323 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.324 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.325 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.326 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.327 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.328 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.329 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.33 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.331 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.332 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.333 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.334 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.335 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.336 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.337 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.338 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.339 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.34 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.341 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.342 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.343 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.344 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.345 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.346 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.347 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.348 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.349 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.35 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.351 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.352 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.353 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.354 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.355 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.356 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.357 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.358 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.359 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.36 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.361 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.362 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.363 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.364 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.365 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.366 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.367 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.368 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.369 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.37 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.371 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.372 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.373 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.374 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.375 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.376 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.377 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.378 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.379 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.38 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.381 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.382 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.383 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.384 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.385 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.386 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.387 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.388 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.389 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.39 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.391 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.392 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.393 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.394 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.395 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 603
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.396 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 603
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.397 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.398 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.399 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.4 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.401 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.402 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.403 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.404 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.405 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 963 518
+Test 1223.406 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 963 518
+Test 1223.407 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 518 963
+Test 1223.408 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 518 963
+Test 1223.409 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.41 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.411 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 603
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.412 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 603
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.413 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.414 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.415 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.416 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.417 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.418 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.419 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.42 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.421 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 963 518
+Test 1223.422 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 963 518
+Test 1223.423 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 518 963
+Test 1223.424 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 518 963
+Test 1223.425 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 603
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.426 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 603
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.427 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.428 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.429 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.43 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.431 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.432 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.433 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.434 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.435 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.436 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.437 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 963 518
+Test 1223.438 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 963 518
+Test 1223.439 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 518 963
+Test 1223.44 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 518 963
+Test 1223.441 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 238 796 172 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 265 831  65 441 638
+Test 1223.442 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 238 796 172 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 265 831  65 441 638
+Test 1223.443 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 238 796 172 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 265 831  65 441 638
+Test 1223.444 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 238 796 172 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 265 831  65 441 638
+Test 1223.445 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 172 796 238 443
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 831 265 541 529 801
+Test 1223.446 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 172 796 238 443
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 831 265 541 529 801
+Test 1223.447 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 172 796 238 443
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 831 265 541 529 801
+Test 1223.448 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 172 796 238 443
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 831 265 541 529 801
+Test 1223.449 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 127 185 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 459 602 476  32 338 963
+Test 1223.45 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 127 185 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 459 602 476  32 338 963
+Test 1223.451 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 127 185 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 459 602 476  32 338 963
+Test 1223.452 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 127 185 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 459 602 476  32 338 963
+Test 1223.453 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 185 127  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 476 602 459 232 102
+Test 1223.454 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 185 127  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 476 602 459 232 102
+Test 1223.455 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 185 127  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 476 602 459 232 102
+Test 1223.456 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 185 127  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 476 602 459 232 102
+Test 1223.473 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.474 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.475 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.476 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.477 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.478 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.479 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.48 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.481 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.482 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.483 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.484 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.485 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.486 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.487 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.488 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.489 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.49 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.491 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.492 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.493 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.494 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.495 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.496 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.497 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.498 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.499 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.5 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.501 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.502 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.503 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.504 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.505 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.506 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.507 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.508 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.509 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.51 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.511 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.512 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.513 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.514 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.515 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.516 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.517 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.518 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.519 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.52 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.521 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.522 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.523 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.524 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.525 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.526 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.527 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.528 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.529 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.53 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.531 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.532 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.533 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.534 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.535 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.536 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.537 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.538 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.539 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.54 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.541 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.542 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.543 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.544 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.545 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.546 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.547 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.548 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.549 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.55 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.551 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.552 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.553 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.554 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.555 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.556 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.557 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.558 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.559 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.56 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.561 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.562 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.563 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.564 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.565 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.566 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.567 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.568 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.569 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.57 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.571 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.572 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.573 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.574 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.575 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.576 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.577 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.578 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.579 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.58 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.581 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.582 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.583 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.584 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.585 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.586 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.587 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.588 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.589 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.59 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.591 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.592 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.593 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.594 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.595 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.596 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.597 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.598 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.599 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.6 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.601 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.602 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.603 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.604 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.605 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.606 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.607 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.608 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.609 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.61 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.611 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.612 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.613 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.614 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.615 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.616 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.617 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.618 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.619 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.62 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.621 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.622 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.623 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.624 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.625 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.626 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.627 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.628 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.629 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.63 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.631 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.632 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.633 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.634 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.635 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.636 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 292
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.637 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 603
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.638 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 603
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.639 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 603
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.64 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  20 142 172 238 796 603
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  65 265 831 541 801 529
+Test 1223.641 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.642 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.643 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.644 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.645 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.646 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.647 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.648 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 142  20 796 238 172 846
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 541 831 265  65 441 638
+Test 1223.649 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.65 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.651 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.652 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.653 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.654 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.655 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.656 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 127 185  98 178  74 689
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  32 602 459 476 338 232
+Test 1223.657 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 963 518
+Test 1223.658 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 963 518
+Test 1223.659 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 963 518
+Test 1223.66 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 963 518
+Test 1223.661 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 518 963
+Test 1223.662 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 518 963
+Test 1223.663 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 518 963
+Test 1223.664 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1]  98 185 127 689  74 178
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 476 459 602  32 518 963
+Test 1223.665 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.666 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.667 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.668 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.669 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.67 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.671 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.672 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.673 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.674 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.675 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.676 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.677 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.678 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.679 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.68 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.681 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.682 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.683 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.684 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.685 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.686 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.687 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.688 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.689 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.69 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.691 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.692 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.693 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.694 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.695 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.696 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 560 356 697 772 617 226
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 898 124 805 900  46 672
+Test 1223.697 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.698 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.699 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.7 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.701 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.702 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.703 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.704 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.705 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.706 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.707 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.708 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.709 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.71 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.711 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.712 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.713 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.714 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.715 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.716 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.717 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.718 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.719 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.72 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.721 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.722 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.723 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.724 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.725 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.726 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.727 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+Test 1223.728 ran without errors but failed check that x equals y:
+> x = forderv(DT, by = x, order = y) 
+First 6 of 1000 :[1] 121 400 520 691 672 762
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 337 477 526 515 133 533
+forder decreasing argument test: seed = 1401203817  colorder = 4,3,1,2,5,6 
+Test 1251.6 ran without errors but failed check that x equals y:
+> x = DT[order(4 * x - 5 * y, decreasing = TRUE)] 
+    x y  [Key= Types=int,int]
+ 1: 1 1                      
+ 2: 2 2                      
+---                          
+ 9: 2 1                      
+10: 3 2                      
+> y = DT[ix] 
+    x y  [Key= Types=int,int]
+ 1: 3 1                      
+ 2: 3 1                      
+---                          
+ 9: 1 2                      
+10: 1 2                      
+Test 1251.7 ran without errors but failed check that x equals y:
+> x = DT[order(1 - DT$x, decreasing = TRUE)] 
+    x y  [Key= Types=int,int]
+ 1: 2 1                      
+ 2: 2 2                      
+---                          
+ 9: 1 2                      
+10: 1 2                      
+> y = DT[ix] 
+    x y  [Key= Types=int,int]
+ 1: 1 1                      
+ 2: 1 2                      
+---                          
+ 9: 3 1                      
+10: 3 2                      
+Test 1253.135 ran without errors but failed check that x equals y:
+> x = ans1 
+First 6 of 1000 :[1] 695   3   5   6   8  11
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  92  97 100 128 129 143
+Test 1253.136 ran without errors but failed check that x equals y:
+> x = ans1[ans1 != 0] 
+First 6 of 900 :[1] 695   3   5   6   8  11
+> y = with(DT, eval(ll)) 
+First 6 of 900 :[1]  92  97 100 128 129 143
+Test 1253.137 ran without errors but failed check that x equals y:
+> x = ans1 
+First 6 of 1000 :[1] 717 802  73 139 332 597
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  10  69  76  87 114 116
+Test 1253.138 ran without errors but failed check that x equals y:
+> x = ans1[ans1 != 0] 
+First 6 of 900 :[1] 717 802  73 139 332 597
+> y = with(DT, eval(ll)) 
+First 6 of 900 :[1]  10  69  76  87 114 116
+Test 1253.151 ran without errors but failed check that x equals y:
+> x = ans1 
+First 6 of 1000 :[1]  92  97 164 273 421 742
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  92  97 164 273 421 742
+Test 1253.152 ran without errors but failed check that x equals y:
+> x = ans1[ans1 != 0] 
+First 6 of 811 :[1]  33  62  83  91 106 111
+> y = with(DT, eval(ll)) 
+First 6 of 811 :[1]  92  97 164 273 421 742
+Test 1253.153 ran without errors but failed check that x equals y:
+> x = ans1 
+First 6 of 1000 :[1] 236 253 397 524 550 583
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 236 253 397 524 550 583
+Test 1253.154 ran without errors but failed check that x equals y:
+> x = ans1[ans1 != 0] 
+First 6 of 811 :[1] 717  12  19  29  61 107
+> y = with(DT, eval(ll)) 
+First 6 of 811 :[1] 236 253 397 524 550 583
+Test 1253.155 ran without errors but failed check that x equals y:
+> x = ans1 
+First 6 of 1000 :[1] 129 143 289 378 535 576
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 129 143 289 378 535 576
+Test 1253.156 ran without errors but failed check that x equals y:
+> x = ans1[ans1 != 0] 
+First 6 of 811 :[1]   5  34  37  42  47 131
+> y = with(DT, eval(ll)) 
+First 6 of 811 :[1] 129 143 289 378 535 576
+Test 1253.157 ran without errors but failed check that x equals y:
+> x = ans1 
+First 6 of 1000 :[1]  76 181 406 456 823 940
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  76 181 406 456 823 940
+Test 1253.158 ran without errors but failed check that x equals y:
+> x = ans1[ans1 != 0] 
+First 6 of 811 :[1]  1 26 41 44 66 70
+> y = with(DT, eval(ll)) 
+First 6 of 811 :[1]  76 181 406 456 823 940
+Test 1253.183 ran without errors but failed check that x equals y:
+> x = ans1 
+First 6 of 1000 :[1] 695   3   6   8  11  33
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 100 145 346 560 576 603
+Test 1253.184 ran without errors but failed check that x equals y:
+> x = ans1[ans1 != 0] 
+First 6 of 715 :[1] 695   3   6   8  11  33
+> y = with(DT, eval(ll)) 
+First 6 of 715 :[1] 100 145 346 560 576 603
+Test 1253.185 ran without errors but failed check that x equals y:
+> x = ans1 
+First 6 of 1000 :[1] 695  57  84  86  91  98
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  97 143 164 259 273 708
+Test 1253.186 ran without errors but failed check that x equals y:
+> x = ans1[ans1 != 0] 
+First 6 of 715 :[1] 695  57  84  86  91  98
+> y = with(DT, eval(ll)) 
+First 6 of 715 :[1]  97 143 164 259 273 708
+Test 1253.187 ran without errors but failed check that x equals y:
+> x = ans1 
+First 6 of 1000 :[1] 717 802  73 895 597 789
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  10  69 114 117 174 220
+Test 1253.188 ran without errors but failed check that x equals y:
+> x = ans1[ans1 != 0] 
+First 6 of 715 :[1] 717 802  73 895 597 789
+> y = with(DT, eval(ll)) 
+First 6 of 715 :[1]  10  69 114 117 174 220
+Test 1253.189 ran without errors but failed check that x equals y:
+> x = ans1 
+First 6 of 1000 :[1] 717 802 597 789  73 895
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  76  87 196 260 461 726
+Test 1253.19 ran without errors but failed check that x equals y:
+> x = ans1[ans1 != 0] 
+First 6 of 715 :[1] 717 802 597 789  73 895
+> y = with(DT, eval(ll)) 
+First 6 of 715 :[1]  76  87 196 260 461 726
+Test 1253.191 ran without errors but failed check that x equals y:
+> x = ans1 
+First 6 of 1000 :[1] 695   8  22  32  33  35
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 143 145 164 261 378 421
+Test 1253.192 ran without errors but failed check that x equals y:
+> x = ans1[ans1 != 0] 
+First 6 of 809 :[1] 695   8  22  32  33  35
+> y = with(DT, eval(ll)) 
+First 6 of 809 :[1] 143 145 164 261 378 421
+Test 1253.193 ran without errors but failed check that x equals y:
+> x = ans1 
+First 6 of 1000 :[1] 695 333 904  39  47  48
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  92 100 128 129 163 259
+Test 1253.194 ran without errors but failed check that x equals y:
+> x = ans1[ans1 != 0] 
+First 6 of 809 :[1] 695 333 904  39  47  48
+> y = with(DT, eval(ll)) 
+First 6 of 809 :[1]  92 100 128 129 163 259
+Test 1253.195 ran without errors but failed check that x equals y:
+> x = ans1 
+First 6 of 1000 :[1] 802 717 789 597 895  73
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  69 181 331 406 453 524
+Test 1253.196 ran without errors but failed check that x equals y:
+> x = ans1[ans1 != 0] 
+First 6 of 809 :[1] 802 717 789 597 895  73
+> y = with(DT, eval(ll)) 
+First 6 of 809 :[1]  69 181 331 406 453 524
+Test 1253.197 ran without errors but failed check that x equals y:
+> x = ans1 
+First 6 of 1000 :[1] 717 802 139 332  73 980
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  10 114 397 456 851 940
+Test 1253.198 ran without errors but failed check that x equals y:
+> x = ans1[ans1 != 0] 
+First 6 of 809 :[1] 717 802 139 332  73 980
+> y = with(DT, eval(ll)) 
+First 6 of 809 :[1]  10 114 397 456 851 940
+Test 1253.199 ran without errors but failed check that x equals y:
+> x = ans1 
+First 6 of 1000 :[1] 695   3  47  86 249 313
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  92 128 273 606 445 168
+Test 1253.2 ran without errors but failed check that x equals y:
+> x = ans1[ans1 != 0] 
+First 6 of 900 :[1] 695   3  47  86 249 313
+> y = with(DT, eval(ll)) 
+First 6 of 900 :[1]  92 128 273 606 445 168
+Test 1253.201 ran without errors but failed check that x equals y:
+> x = ans1 
+First 6 of 1000 :[1] 695 104 126 193  48 411
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 887 931 163 293 378 628
+Test 1253.202 ran without errors but failed check that x equals y:
+> x = ans1[ans1 != 0] 
+First 6 of 900 :[1] 695 104 126 193  48 411
+> y = with(DT, eval(ll)) 
+First 6 of 900 :[1] 887 931 163 293 378 628
+Test 1253.203 ran without errors but failed check that x equals y:
+> x = ans1 
+First 6 of 1000 :[1] 802 717  73 332 139 597
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 616 705 253 550 583 822
+Test 1253.204 ran without errors but failed check that x equals y:
+> x = ans1[ans1 != 0] 
+First 6 of 900 :[1] 802 717  73 332 139 597
+> y = with(DT, eval(ll)) 
+First 6 of 900 :[1] 616 705 253 550 583 822
+Test 1253.205 ran without errors but failed check that x equals y:
+> x = ans1 
+First 6 of 1000 :[1] 717 802 895 980 789 597
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 813 940 949 116 142 453
+Test 1253.206 ran without errors but failed check that x equals y:
+> x = ans1[ans1 != 0] 
+First 6 of 900 :[1] 717 802 895 980 789 597
+> y = with(DT, eval(ll)) 
+First 6 of 900 :[1] 813 940 949 116 142 453
+Test 1253.231 ran without errors but failed check that x equals y:
+> x = ans1 
+First 6 of 1000 :[1] 896  92 421 931 935  97
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 896  92 421 931 935  97
+Test 1253.232 ran without errors but failed check that x equals y:
+> x = ans1[ans1 != 0] 
+First 6 of 639 :[1]  33  83 137 204 497 670
+> y = with(DT, eval(ll)) 
+First 6 of 639 :[1] 896  92 421 931 935  97
+Test 1253.233 ran without errors but failed check that x equals y:
+> x = ans1 
+First 6 of 1000 :[1]  97 164 273 742 835  92
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1]  97 164 273 742 835  92
+Test 1253.234 ran without errors but failed check that x equals y:
+> x = ans1[ans1 != 0] 
+First 6 of 639 :[1]  91 111 265 403 468 483
+> y = with(DT, eval(ll)) 
+First 6 of 639 :[1]  97 164 273 742 835  92
+Test 1253.235 ran without errors but failed check that x equals y:
+> x = ans1 
+First 6 of 1000 :[1] 253 397 524 813 236 872
+> y = with(DT, eval(ll)) 
+First 6 of 1000 :[1] 253 397 524 813 236 872
+
+ *** caught segfault ***
+address 0x3e800000028, cause 'memory not mapped'
+
+Traceback:
+ 1: forderv(DT, by = x, order = y, na.last = NA)
+ 2: FUN(newX[, i], ...)
+ 3: apply(cj, 1, function(y) {    test_no <<- signif(test_no + 0.001, 7)    ll = as.call(c(as.name("order"), lapply(seq_along(x), function(j) {        if (y[j] == 1L) as.name(x[j]) else {            if (class(DT[[x[j]]]) == "character") as.call(c(as.name("-"),                 as.call(list(as.name("xtfrm"), as.name(x[j]))))) else as.call(list(as.name("-"),                 as.name(x[j])))        }    })))    ans1 = forderv(DT, by = x, order = y, na.last = TRUE)    test(test_no, ans1, with(DT, eval(ll)))    test_no <<- signif(test_no + 0.001, 7)    ll <- as.call(c(as.list(ll), na.last = NA))    ans1 = forderv(DT, by = x, order = y, na.last = NA)    test(test_no, ans1[ans1 != 0], with(DT, eval(ll)))})
+ 4: FUN(x[a], ...)
+ 5: combn(names(DT), i, function(x) {    tmp = apply(cj, 1, function(y) {        test_no <<- signif(test_no + 0.001, 7)        ll = as.call(c(as.name("order"), lapply(seq_along(x),             function(j) {                if (y[j] == 1L) as.name(x[j]) else {                  if (class(DT[[x[j]]]) == "character") as.call(c(as.name("-"),                     as.call(list(as.name("xtfrm"), as.name(x[j]))))) else as.call(list(as.name("-"),                     as.name(x[j])))                }            })))        ans1 = forderv(DT, by = x, order = y, na.last = TRUE)        test(test_no, ans1, with(DT, eval(ll)))        test_no <<- signif(test_no + 0.001, 7)        ll <- as.call(c(as.list(ll), na.last = NA))        ans1 = forderv(DT, by = x, order = y, na.last = NA)        test(test_no, ans1[ans1 != 0], with(DT, eval(ll)))    })    dim(tmp) = NULL    list(tmp)})
+ 6: eval(expr, envir, enclos)
+ 7: eval(exprs[i], envir)
+ 8: sys.source(fn, envir = new.env(parent = .GlobalEnv))
+ 9: test.data.table()
+aborting ...

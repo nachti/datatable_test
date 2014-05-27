@@ -1,0 +1,94 @@
+Loading required package: data.table
+R version 3.1.0 (2014-04-10)
+Platform: powerpc64-unknown-linux-gnu (64-bit)
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  base     
+
+other attached packages:
+[1] data.table_1.9.2
+
+loaded via a namespace (and not attached):
+[1] methods_3.1.0 plyr_1.8.1    Rcpp_0.11.1   reshape2_1.4  stringr_0.6.2
+Running /usr/local/lib64/R/library/data.table/tests/tests.Rraw 
+Loading required package: reshape2
+Loading required package: reshape
+
+Attaching package: ‘reshape’
+
+The following objects are masked from ‘package:reshape2’:
+
+    colsplit, melt, recast
+
+Loading required package: plyr
+
+Attaching package: ‘plyr’
+
+The following objects are masked from ‘package:reshape’:
+
+    rename, round_any
+
+Loading required package: ggplot2
+Loading required package: methods
+Loading required package: hexbin
+Loading required package: nlme
+Loading required package: xts
+Loading required package: zoo
+
+Attaching package: ‘zoo’
+
+The following objects are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric
+
+
+Attaching package: ‘xts’
+
+The following object is masked from ‘package:data.table’:
+
+    last
+
+Loading required package: bit64
+Loading required package: gdata
+gdata: read.xls support for 'XLS' (Excel 97-2004) files ENABLED.
+
+gdata: read.xls support for 'XLSX' (Excel 2007+) files ENABLED.
+
+Attaching package: ‘gdata’
+
+The following object is masked from ‘package:stats’:
+
+    nobs
+
+The following object is masked from ‘package:utils’:
+
+    object.size
+
+Test 167 Error in (function (file = ifelse(onefile, "Rplots.pdf", "Rplot%03d.pdf"),  : 
+  cannot open file 'Rplots.pdf'
+Test 167.1 Error in (function (file = ifelse(onefile, "Rplots.pdf", "Rplot%03d.pdf"),  : 
+  cannot open file 'Rplots.pdf'
+Test 167.2 not run. If required call library(hexbin) first.
+Test 168 Error in (function (file = ifelse(onefile, "Rplots.pdf", "Rplot%03d.pdf"),  : 
+  cannot open file 'Rplots.pdf'
+Test 168.1 Error in (function (file = ifelse(onefile, "Rplots.pdf", "Rplot%03d.pdf"),  : 
+  cannot open file 'Rplots.pdf'
+Tests 897-899 not run. If required call library(bit64) first.
+Test 1018 didn't produce correct warning :
+> fread("1.46761e-313\n") 
+Expected warning: 'strtod() returned ERANGE'
+Observed: no error or warning
+Test 1135 Error in file(file, ifelse(append, "a", "w")) : 
+  (converted from warning) cannot open file 'df.txt': Permission denied
+Error in eval(expr, envir, enclos) : 
+  6 errors out of 1220 in inst/tests/tests.Rraw. Search tests.Rraw for test numbers: 167,167.1,168,168.1,1018,1135. The test() function is defined at the top of tests.Rraw and contains usage info.
+Calls: test.data.table -> sys.source -> eval -> eval
+Execution halted
