@@ -1,0 +1,59 @@
+Hi there!
+
+Just another example (maybe to be included to test.data.table), which does not do, what I expected (v. 1.9.2 - it's also fixed in 1.9.3)
+
+> require(data.table)
+
+> sessionInfo()
+R version 3.1.0 (2014-04-10)
+Platform: powerpc64-unknown-linux-gnu (64-bit)
+...
+other attached packages:
+[1] data.table_1.9.2
+
+> example(data.table)
+> DT
+   x y  v v2  m
+1: a 1 42 NA 42
+2: a 3 42 NA 42
+3: a 6 42 NA 42
+4: b 1  4 84  5
+5: b 3  5 84  5
+6: b 6  6 84  5
+7: c 1  7 NA  8
+8: c 3  8 NA  8
+9: c 6  9 NA  8
+
+> setkey(DT)
+> DT[J("a"), list(v, y)]
+   x  v y
+1: a 42 1
+> DT[J("a"), list(v, y, i = "text")]
+   x  v y    i
+1: a 42 1 text
+
+##### With data.table 1.9.3 it's working fine:
+> require(data.table)
+
+> sessionInfo()
+R version 3.1.0 (2014-04-10)
+Platform: powerpc64-unknown-linux-gnu (64-bit)
+...
+other attached packages:
+[1] data.table_1.9.3
+
+> example(data.table)
+
+> setkey(DT)
+> DT[J("a"), list(v, y)]
+    v y
+1: 42 1
+2: 42 3
+3: 42 6
+> DT[J("a"), list(v, y, i = "text")]
+    v y    i
+1: 42 1 text
+2: 42 3 text
+3: 42 6 text
+
+nachti
