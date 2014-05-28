@@ -111,3 +111,6 @@ dt
 dt[J(1)] # doesn't work
 
 ###############################################
+
+sessionInfo()
+writeLines(paste("Endianess:", .Platform$endian))
