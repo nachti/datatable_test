@@ -1,7 +1,7 @@
 datatable_test
 ==============
 
-Tests for the data.table package by Gerhard Nachtmann.
+Tests for the [data.table](https://github.com/Rdatatable/datatable) package by Gerhard Nachtmann.
 
 To run `test.data.table()` and write the output to `tdt310_193.out` use
 ``` bash
