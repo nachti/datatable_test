@@ -46,6 +46,10 @@ dtab[dtp] # *wrong* column order
 dtp[dtab[dtp, abn, by = .EACHI]] # since v.1.9.3
 ## dtp <- dtp[dtab[dtp, abn, by = .EACHI]] # the version below is better:
 dtp[dtab[dtp], abn := abn] # assign it
+### or better
+dtp[, abn := NULL]
+dtp[dtab, abn := abn]
+
 dtp
 key(dtp) # ok
 ###############################################
