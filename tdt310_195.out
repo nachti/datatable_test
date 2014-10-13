@@ -5,6 +5,8 @@ The following object is masked from ‘package:data.table’:
 
     melt
 
+Was reshape really loaded?
+[1] TRUE
 R version 3.1.0 (2014-04-10)
 Platform: powerpc64-unknown-linux-gnu (64-bit)
 
@@ -176,4 +178,6 @@ Loading required package: lattice
 Don't know how to automatically pick scale for object of type ITime. Defaulting to continuous
 Don't know how to automatically pick scale for object of type ITime. Defaulting to continuous
 Tests 1383.1 not run. If required call library(reshape) first.
-All 3802 tests (lastID=1390.5) in inst/tests/tests.Rraw completed ok in 45.562sec on Mon Oct 13 15:17:07 2014
+All 3802 tests (lastID=1390.5) in inst/tests/tests.Rraw completed ok in 44.213sec on Mon Oct 13 16:16:06 2014
+Was reshape really loaded?
+[1] FALSE

@@ -13,6 +13,10 @@
 ###
 library(data.table)
 library(reshape)
+writeLines("Was reshape really loaded?")
+"package:reshape" %in% search()
 sessionInfo()
 writeLines(paste("Endianess:", .Platform$endian))
 test.data.table()
+writeLines("Was reshape really loaded?")
+"package:reshape" %in% search()
