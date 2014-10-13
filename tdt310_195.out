@@ -1,3 +1,10 @@
+
+Attaching package: ‘reshape’
+
+The following object is masked from ‘package:data.table’:
+
+    melt
+
 R version 3.1.0 (2014-04-10)
 Platform: powerpc64-unknown-linux-gnu (64-bit)
 
@@ -13,23 +20,16 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  base     
 
 other attached packages:
-[1] data.table_1.9.5
+[1] reshape_0.8.5    data.table_1.9.5
 
 loaded via a namespace (and not attached):
-[1] chron_2.3-45  methods_3.1.0
+[1] chron_2.3-45  methods_3.1.0 plyr_1.8.1    Rcpp_0.11.2  
 Endianess: big
 Running /home/gerhard/lib/R/Work/data.table/tests/tests.Rraw 
 
 Attaching package: ‘reshape2’
 
-The following object is masked from ‘package:data.table’:
-
-    melt
-
-
-Attaching package: ‘reshape’
-
-The following objects are masked from ‘package:reshape2’:
+The following objects are masked from ‘package:reshape’:
 
     colsplit, melt, recast
 
@@ -176,4 +176,4 @@ Loading required package: lattice
 Don't know how to automatically pick scale for object of type ITime. Defaulting to continuous
 Don't know how to automatically pick scale for object of type ITime. Defaulting to continuous
 Tests 1383.1 not run. If required call library(reshape) first.
-All 3802 tests (lastID=1390.5) in inst/tests/tests.Rraw completed ok in 45.621sec on Mon Oct 13 14:53:52 2014
+All 3802 tests (lastID=1390.5) in inst/tests/tests.Rraw completed ok in 45.562sec on Mon Oct 13 15:17:07 2014

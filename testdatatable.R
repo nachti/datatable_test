@@ -12,6 +12,7 @@
 ## biocLite("GenomicRanges")
 ###
 library(data.table)
+library(reshape)
 sessionInfo()
 writeLines(paste("Endianess:", .Platform$endian))
 test.data.table()
