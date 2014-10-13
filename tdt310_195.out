@@ -20,7 +20,6 @@ loaded via a namespace (and not attached):
 [1] chron_2.3-44  methods_3.1.0
 Endianess: big
 Running /home/gerhard/lib/R/Work/data.table/tests/tests.Rraw 
-Loading required package: reshape2
 
 Attaching package: ‘reshape2’
 
@@ -28,7 +27,6 @@ The following object is masked from ‘package:data.table’:
 
     melt
 
-Loading required package: reshape
 
 Attaching package: ‘reshape’
 
@@ -40,7 +38,6 @@ The following object is masked from ‘package:data.table’:
 
     melt
 
-Loading required package: plyr
 
 Attaching package: ‘plyr’
 
@@ -48,13 +45,9 @@ The following objects are masked from ‘package:reshape’:
 
     rename, round_any
 
-Loading required package: ggplot2
 Loading required package: methods
-Loading required package: hexbin
 Loading required package: grid
 Loading required package: lattice
-Loading required package: nlme
-Loading required package: xts
 Loading required package: zoo
 
 Attaching package: ‘zoo’
@@ -70,7 +63,6 @@ The following object is masked from ‘package:data.table’:
 
     last
 
-Loading required package: bit64
 Loading required package: bit
 Attaching package bit
 package:bit (c) 2008-2012 Jens Oehlschlaegel (GPL-2)
@@ -105,7 +97,6 @@ cumulation: diff cummin cummax cumsum cumprod
 access: length<- [ [<- [[ [[<-
 combine: c rep cbind rbind as.data.frame
 for more help type ?bit64
-Loading required package: gdata
 gdata: read.xls support for 'XLS' (Excel 97-2004) files ENABLED.
 
 gdata: read.xls support for 'XLSX' (Excel 2007+) files ENABLED.
@@ -120,13 +111,6 @@ The following object is masked from ‘package:utils’:
 
     object.size
 
-Loading required package: GenomicRanges
-Loading required package: caret
-Don't know how to automatically pick scale for object of type ITime. Defaulting to continuous
-Don't know how to automatically pick scale for object of type ITime. Defaulting to continuous
-Test 1271 Error : 'order' is not an exported object from 'namespace:bit64'
-Tests 1383.1 not run. If required call library(reshape) first.
-Error in eval(expr, envir, enclos) : 
-  1 error out of 3776 (lastID=1390.5) in inst/tests/tests.Rraw on Mon Oct 13 11:25:06 2014. Search tests.Rraw for test number 1271.
-Calls: test.data.table -> sys.source -> eval -> eval
+Error in LIB(GenomicRanges) : there is no package called ‘GenomicRanges’
+Calls: test.data.table -> sys.source -> eval -> eval -> LIB
 Execution halted
