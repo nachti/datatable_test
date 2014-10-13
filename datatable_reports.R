@@ -83,7 +83,7 @@ dt <- data.table(x = 1:10, y = factor(sample(2, 10, replace = TRUE)))
 dt[, z := as.numeric(levels(y))[y]]
 dt
 setkey(dt, z)
-dt[J(1)] # doesn't work
+dt[J(1)] # doesn't work in 1.9.2, but fine since 1.9.5 again
 dt[y == 1, ] # works fine
 str(dt)
 
@@ -102,11 +102,11 @@ as.Numeric <- function(f){
 }
 
 dt[, z := as.Numeric(y)] # as.numeric(as.character(y))
-                                    # is working ...
+                         # is working in 1.9.2
 dt
 setkey(dt, z)
 dt
-dt[J(1)] # doesn't work
+dt[J(1)] # doesn't work in 1.9.2, but fine since 1.9.5 again
 dt[y == 1, ] # works fine
 str(dt)
 
