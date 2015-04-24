@@ -33,3 +33,28 @@ samples[is.na(info), info := info1]
 samples[, info1 := NULL]
 setkey(samples, name)
 samples
+
+rm(list = ls())
+
+##### solution by eddi (updated by nachti)
+samples <- data.table(name = letters[1:3], 
+                      primary = c(17, 0, 18), 
+                      secondary = c(55, 42, 42))
+resources <- data.table(primary = 17:19, 
+                        secondary = c(42, NA, 43), 
+                        info = LETTERS[9:11])
+samples
+resources
+
+### First step
+setkey(samples, primary)
+setkey(resources, primary)
+samples[resources, info := i.info]
+samples
+
+### Second step
+setkey(samples, secondary)
+setkey(resources, secondary)
+samples[resources, info := ifelse(is.na(info), i.info, info),
+        by = .EACHI]
+samples
