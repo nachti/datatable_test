@@ -52,9 +52,17 @@ setkey(resources, primary)
 samples[resources, info := i.info]
 samples
 
-### Second step
+### Second step (with performance test)
 setkey(samples, secondary)
 setkey(resources, secondary)
-samples[resources, info := ifelse(is.na(info), i.info, info),
-        by = .EACHI]
 samples
+s <- copy(samples)
+require(microbenchmark)
+microbenchmark(EACHI = samples[resources, info := ifelse(is.na(info), i.info, info),
+        by = .EACHI],
+               cart = s[resources, info := ifelse(is.na(info), i.info, info),
+        allow.cartesian = TRUE] # faster
+               )
+samples
+s
+all.equal(samples, s)
