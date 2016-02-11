@@ -82,3 +82,16 @@ microbenchmark(dt194 = mg[, l1 := c(value[-1], NA), by = .(id)],
 ##  dt196 83.92612 87.530404 91.700317 90.953947 91.43783 257.473242   100
 
 mg[, all.equal(l1, l2)]
+
+### suggestion by MichaelChirico
+### http://stackoverflow.com/users/3576984/michaelchirico
+### to avoid `:=` did not help.
+
+microbenchmark(dt194 = mg[, c(value[-1], NA), by = id],
+               dt196 = mg[, shift(value, n = 1,
+                                   type = "lead"), by = id])
+
+## Unit: milliseconds
+##   expr       min        lq     mean    median        uq       max neval
+##  dt194  5.161973  5.429927  5.78047  5.698263  5.798132  10.42217   100
+##  dt196 79.526981 87.914502 92.18144 91.240949 91.896799 266.04031   100
