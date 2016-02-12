@@ -1,5 +1,6 @@
 ##### R-Script to speedup leading / lagging
 ##### Gerhard Nachtmann 20150723, 20160203
+##### 20160211-12
 library(dplyr)
 library(data.table)
 library(microbenchmark)
@@ -72,16 +73,18 @@ set.seed(1)
 mg <- data.table(expand.grid(year = 2012:2016, id = 1:1000),
                  value = rnorm(5000))
 mg
+mg1 <- copy(mg)
 
 microbenchmark(dt194 = mg[, l1 := c(value[-1], NA), by = .(id)],
-               dt196 = mg[, l2 := shift(value, n = 1,
-                                   type = "lead"), by = .(id)])
+               dt196 = mg1[, l1 := shift(value, n = 1,
+                                         type = "lead"),
+                                         by = .(id)])
 ## Unit: milliseconds
-##   expr      min        lq      mean    median       uq        max neval
-##  dt194  4.93735  5.236034  5.718654  5.623736  5.74395   9.555922   100
-##  dt196 83.92612 87.530404 91.700317 90.953947 91.43783 257.473242   100
+##   expr       min        lq      mean    median        uq        max neval
+##  dt194  5.175392  5.287038  5.682602  5.705389  5.831791   9.602637   100
+##  dt196 86.449099 87.808011 91.951204 90.939241 91.468435 270.715783   100
 
-mg[, all.equal(l1, l2)]
+all.equal(mg, mg1)
 
 ### suggestion by MichaelChirico
 ### http://stackoverflow.com/users/3576984/michaelchirico
