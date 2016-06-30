@@ -1,16 +1,17 @@
 ##### R-Script to test variants of locf
-##### Gerhard Nachtmann 20160629
+##### Gerhard Nachtmann 20160629-30
 
 require(data.table)
 require(microbenchmark)
 require(zoo) # for na.locf
 
-dat <- data.table(id = gl(3, 5),
+dat <- data.table(id = gl(4, 5),
                   year = c(2000:2004, 2000:2002, 2004:2005,
-                           2003:2007),
+                           2003:2007, 2005:2009),
                   gcd = c("10315", NA, "31644", NA, NA,
                           "60661", NA, "40618", NA, NA,
-                          NA, "30718", NA, NA, NA))
+                          NA, "30718", NA, NA, NA,
+                          NA, NA, NA, "40711", NA))
 ## year 2003 is missing for id 2
 ## first year (2003) is missing for id 3
 
@@ -40,6 +41,7 @@ dat2
 all.equal(dat1, dat2)
 
 ### ok use zoo
-### impute the missing first year in id 3
-dat1[, gcd1 := na.locf(gcd1, fromLast = TRUE), by = id]
+### impute the missing first year(s) in id 3 and 4
+dat1[, gcd1 := na.locf(gcd1, fromLast = TRUE, na.rm = FALSE),
+     by = id]
 dat1
