@@ -3,6 +3,7 @@
 ##### Gerhard Nachtmann 20140428, 0509,22
 ##### 20161220-21
 require(data.table)
+require(microbenchmark)
 
 ##### Merge test:
 
@@ -131,7 +132,35 @@ setkey(dt, class, age)
 dt[CJ(2:3, 15:17), list(med = median(var)),
    keyby = .(age, year, class)]
 
+##### chained version -- inconvenient
+setkey(dt, NULL) # remove key
+dt[.(2:3), on = "class"][.(15:17), on = "age"][,
+    list(med = median(var)), keyby = .(age, year, class)]
 
+##### vector search
+dt[class %in% 2:3 & age %in% 15:17,
+   .(med = median(var)), keyby=.(age, year, class)]
+
+microbenchmark(
+    index = dt[CJ(class = 2:3, age = 15:17),
+               list(med = median(var)), on = c("class", "age"),
+               keyby = .(age, year, class)],
+    chained = dt[.(2:3), on = "class"][.(15:17), on = "age"][,
+                 list(med = median(var)),
+                 keyby = .(age, year, class)],
+    vector = dt[class %in% 2:3 & age %in% 15:17,
+                .(med = median(var)),
+                keyby = .(age, year, class)],
+    keyed = {setkey(dt, class, age);
+             dt[CJ(2:3, 15:17), list(med = median(var)),
+                keyby = .(age, year, class)]})
+
+## Unit: milliseconds
+##     expr      min       lq     mean   median       uq       max neval cld
+##    index 4.197394 4.391592 4.489907 4.464140 4.563112  5.077186   100  b 
+##  chained 4.897382 5.268076 5.809753 5.377401 5.495717 12.711456   100   c
+##   vector 1.991190 2.092386 2.225129 2.141115 2.213040  8.356753   100 a  
+##    keyed 3.961303 4.070262 4.194656 4.145691 4.232229  4.974563   100  b 
 
 sessionInfo()
 writeLines(paste("Endianess:", .Platform$endian))
