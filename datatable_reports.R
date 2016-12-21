@@ -1,6 +1,7 @@
 ##### R-Script to find out, what is not working as expected for
 ##### questions in SO or dt-help
 ##### Gerhard Nachtmann 20140428, 0509,22
+##### 20161220-21
 require(data.table)
 
 ##### Merge test:
@@ -115,6 +116,22 @@ dt
 dt[J(1)] # doesn't work
 
 ###############################################
+
+##### Reported 20161220
+##### http://stackoverflow.com/questions/41248161/using-on-argument-in-combination-with-cj
+dt <- CJ(year = 2015:2016, class = 1:4, age = 15:20)
+set.seed(1)
+dt[, var := rnorm(48)]
+dt[CJ(class = 2:3, age = 15:17),
+      list(med = median(var)), on = c("class", "age"),
+      keyby = .(age, year, class)]
+
+##### keyed version -- less typing work
+setkey(dt, class, age)
+dt[CJ(2:3, 15:17), list(med = median(var)),
+   keyby = .(age, year, class)]
+
+
 
 sessionInfo()
 writeLines(paste("Endianess:", .Platform$endian))
